@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>OVO Coding Test</title>
+	<!-- Bootstrap v5.0.1 CSS -->
+	<link rel="stylesheet" href="/css/bootstrap-5.0.1.css">
+	<!-- Custom Style -->
+	<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+	<div class="mobile-container">
+		<div class="header bg-danger">
+			<p class="fst-italic">{{ .Base }} - Euro</p>
+			<div class="d-flex justify-content-between">
+				<h2 class="fw-bold">{{ .Base }}</h2>
+				<h2 id="base_money" class="fw-bold" contenteditable=""></h2>
+			</div>
+		</div>
+		<div class="body row m-0">
+			<div class="col-12 container-btn">
+				<button type="button" class="btn btn-danger w-100" data-bs-toggle="modal" data-bs-target="#modal-add-currency"> + Add More Currencies </button>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="modal-add-currency" tabindex="-1" aria-labelledby="modal-label" aria-hidden="true">
+	    <div class="modal-dialog">
+	        <form class="modal-content" method="POST">
+	            <div class="modal-header">
+	                <h5 class="modal-title" id="modal-label">Add More Currencies</h5>
+	                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	            </div>
+	            <div class="modal-body pt-3 pb-5">
+	                <select class="form-select" id="currency_code" name="currency_code">
+						<option selected>Open this select menu</option>
+                        {{ range $i, $a := .Rates }}
+						<option value="{{ $i }}">{{ .Code }} - {{ .Name }}</option>
+                        {{ end }}
+					</select>
+	            </div>
+	            <div class="modal-footer">
+	                <button type="submit" class="btn btn-danger">Save changes</button>
+	            </div>
+	        </form>
+	    </div>
+	</div>
+
+	<!-- Bootstrap v5.0.1 -->
+	<script src="/js/bootstrap-5.0.1.js"></script>
+    <!-- Jquery v3.6.0  -->
+	<script src="/js/jquery-3.6.0.js"></script>
+    <!-- Custom Scripts -->
+	<script src="/js/script.js"></script>
+    <script>
+        const base = {{ .Base }}
+        let currency;
+        let base_money;
+
+		if (localStorage.getItem("base_money")) {
+			base_money = localStorage.getItem("base_money")
+		} else {
+			base_money = 10000
+			localStorage.setItem("base_money", base_money);
+		}
+
+		$('#base_money').text(base_money)
+
+		if (localStorage.getItem("currency")) {
+			currency = JSON.parse(localStorage.getItem("currency"))
+			for(let i = 0; i < currency.length; i++){ 
+				if (currency[i].active) {
+					addCurrency(i)
+				}
+			}
+		} else {
+			currency =  {{ .Rates }}
+			currency.forEach(element => {
+				element.active=false
+			});
+			localStorage.setItem("currency", JSON.stringify(currency));
+		}
+    </script>
+</body>
+</html>

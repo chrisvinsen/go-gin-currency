@@ -1,0 +1,33 @@
+body {
+	background-color: #eee;
+	display: flex;
+	justify-content: center;
+}
+.mobile-container {
+	background-color: white;
+	max-width: 400px;
+	width: 100%;
+	height: 100vh;
+	border: 1px solid rgba(0, 0, 0, 0.125);
+	overflow: auto;
+}
+.header {
+	border: 1px solid rgba(0, 0, 0, 0.125);
+	padding: 1rem;
+	color: white !important;
+}
+.body {
+	padding: 1rem;
+}
+.card {
+	border: none;
+	margin-bottom: 1rem;
+}
+.card .left, .card .right {
+	border: 1px solid rgba(0, 0, 0, 0.125);
+	padding: 1rem;
+}
+#base_money {
+	padding: .25rem;
+	border: 1px solid white;
+}
